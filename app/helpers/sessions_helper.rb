@@ -17,4 +17,10 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  # logout current user
+  def log_out
+    reset_session
+    @current_user = nil   # for safe
+  end
+
 end
