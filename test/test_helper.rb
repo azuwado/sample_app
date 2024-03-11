@@ -8,6 +8,11 @@ class ActiveSupport::TestCase
   # 指定のワーカー数でテストを並列実行する
   parallelize(workers: :number_of_processors)
 
+  # return true if test user is logging in
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+
   # test/fixtures/*.ymlにあるすべてのfixtureをセットアップする
   fixtures :all
   include ApplicationHelper
