@@ -3,6 +3,8 @@ module SessionsHelper
   # login using given user
   def log_in(user)
     session[:user_id] = user.id
+    # prevent session replay attack
+    session[:session_token] = user.session_token
   end
 
   # remember user in database for permanent session
@@ -15,7 +17,10 @@ module SessionsHelper
   # return user according to token-cookie
   def current_user
     if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: user_id)
+      user = User.find_by(id: user_id)
+      if user && session[:session_token] == user.session_token
+        @current_user = user
+      end
     elsif (user_id = cookies.encrypted[:user_id])
       user = User.find_by(id: user_id)
       if user&.authenticated?(cookies[:remember_token])
