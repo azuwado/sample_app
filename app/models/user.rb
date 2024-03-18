@@ -76,6 +76,11 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # trial production for feed method
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
     # downer all mailadress
