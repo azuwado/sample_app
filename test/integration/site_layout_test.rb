@@ -22,6 +22,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", contact_path
     assert_select "a[href=?]", signup_path
+
+    # stat (self-produce)
+    assert_match @user.active_relationships.count.to_s, response.body
+    assert_match @user.passive_relationships.count.to_s, response.body
   end
 
   test "layout links after logging in" do
@@ -41,6 +45,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", contact_path
     assert_select "a[href=?]", signup_path, count: 0
+
+    # stat (self-produce)
+    assert_match @user.active_relationships.count.to_s, response.body
+    assert_match @user.passive_relationships.count.to_s, response.body
   end
 
 end
